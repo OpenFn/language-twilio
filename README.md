@@ -10,17 +10,18 @@ Documentation
 #### sample configuration
 ```json
 {
-  "apiKey": "mYaP1K3y",
-  "apiSecret": "supersecret"
+  "accountSid": "secret",
+  "authToken": "evenMoreSecret"
 }
 ```
 
 #### sample expression
 ```js
-sendSMS(
-  "OpenFn",
-  "0123456789",
-  "HelloWorld!")
+sendSMS({
+  body: state.data.text,
+  from: '+15005550006',
+  to: state.data.recipient,
+});
 ```
 
 Development
