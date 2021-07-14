@@ -1,5 +1,9 @@
 /** @module Adaptor */
-import {execute as commonExecute, expandReferences, composeNextState } from 'language-common';
+import {
+  execute as commonExecute,
+  expandReferences,
+  composeNextState,
+} from '@openfn/language-common';
 
 /**
  * Execute a sequence of operations.
@@ -16,64 +20,66 @@ import {execute as commonExecute, expandReferences, composeNextState } from 'lan
 export function execute(...operations) {
   const initialState = {
     references: [],
-    data: null
-  }
+    data: null,
+  };
 
   return state => {
     return commonExecute(...operations)({
       ...initialState,
-      ...state
-    })
+      ...state,
+    });
   };
-
 }
 
 /**
  * Sends an SMS message to a specific phone number
  * @public
  * @example
- * sendSMS("OpenFn", "phoneNumber", "Hello World!")
+ * sendSMS({
+ *  body: dataValue('sampleText'),
+ *  from: dataValue('myFromNumber'),
+ *  to: dataValue('ukMobile'),
+ * });
  * @function
- * @param {String} from - Name or number the message should be sent from.
- * @param {String} toNumber - Destination phone number.
- * @param {String} message - Text message
+ * @param {Object} params - an object containing 'body', 'from', and 'to' keys.
  * @returns {Operation}
  */
 export function sendSMS(params) {
-
   return state => {
-
     const { accountSid, authToken } = state.configuration;
-    const { body, from, to } = expandReferences(params)(state)
+    const { body, from, to } = expandReferences(params)(state);
 
     const client = require('twilio')(accountSid, authToken);
 
     return new Promise((resolve, reject) => {
-
       client.messages
-      .create({ body, from, to })
-      .then(response => {
-        if (response.errorCode) {
-          console.log(response)
-          reject(errorCode)
-        }
-        console.log(response)
-        return response
-      })
-      .done();
-    })
-  }
+        .create({ body, from, to })
+        .then(response => {
+          if (response.errorCode) {
+            console.log(response);
+            reject(errorCode);
+          }
+          console.log(response);
+          return response;
+        })
+        .done();
+    });
+  };
 }
+
+// TODO: write a bulkSms function that takes an array.
+// export function bulkSMS(params) {}
 
 export {
   field,
   fields,
   sourceValue,
   alterState,
+  fn,
+  http,
   each,
   merge,
   dataPath,
   dataValue,
-  lastReferenceValue
-}
-from 'language-common';
+  lastReferenceValue,
+} from '@openfn/language-common';
