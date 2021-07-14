@@ -32,6 +32,16 @@ sendSMS({
 });
 ```
 
+## local usage
+
+```sh
+~/devtools/core/bin/core execute \
+  -l ~/devtools/adaptors/language-twilio \
+  -s ./tmp/state.json \
+  -o ./tmp/output.json \
+  -e ./tmp/expression.js
+```
+
 ## Development
 
 Clone the repo, run `npm install`.
