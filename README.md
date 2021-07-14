@@ -1,34 +1,41 @@
-Language twilio [![Build Status](https://travis-ci.org/OpenFn/language-twilio.svg?branch=master)](https://travis-ci.org/OpenFn/language-twilio)
-=================
+# Language twilio [![Build Status](https://travis-ci.org/OpenFn/language-twilio.svg?branch=master)](https://travis-ci.org/OpenFn/language-twilio)
 
-Language Pack for building expressions and operations to interact with the twilio API.
+Language Pack for building expressions and operations to interact with the
+twilio API.
 
-Documentation
--------------
+## Documentation
+
 ## sendSMS
 
-#### sample configuration
+#### sample initial state
+
 ```json
 {
-  "accountSid": "secret",
-  "authToken": "evenMoreSecret"
+  "configuration": {
+    "accountSid": "secret",
+    "authToken": "evenMoreSecret"
+  },
+  "data": {
+    "text": "Hello world!",
+    "recipientPhoneNumber": "+19148675309"
+  }
 }
 ```
 
-#### sample expression
+#### sample expression, sending an sms
+
 ```js
 sendSMS({
-  body: state.data.text,
+  body: dataValue('text'),
   from: '+15005550006',
-  to: state.data.recipient,
+  to: dataValue('recipient'),
 });
 ```
 
-Development
------------
+## Development
 
 Clone the repo, run `npm install`.
 
 Run tests using `npm run test` or `npm run test:watch`
 
-Build the project using `make`.
+Build the project and validate the documentation using `npm run build`.
