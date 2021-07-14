@@ -23,7 +23,7 @@ export {fixtures};
 
 export default [
   {
-    pattern : 'https://fake.server.com/api(.*)',
+    pattern : 'https://api.twilio.com/(.*)',
 
     fixtures(match, params, headers) {
       if (match[1] === '/api') {

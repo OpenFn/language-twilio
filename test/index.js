@@ -1,27 +1,73 @@
-import {expect} from 'chai';
-import Adaptor from '../src';
-const {execute, sendSMS} = Adaptor;
+import { expect } from 'chai';
+import nock, { back } from 'nock';
+import ClientFixtures, { fixtures } from './ClientFixtures';
 
-describe("execute", () => {
+import Adaptor from '../lib';
+const { execute, sendSMS, dataValue } = Adaptor;
 
-  it("sends an SMS and expects a delivery status", (done) => {
-    let state = {
-      configuration: {
-        "apiKey": "613118f9",
-        "apiSecret": "b7e9d82697feb58b"
+describe('execute', () => {
+  it('executes each operation in sequence', done => {
+    let state = {};
+    let operations = [
+      state => {
+        return { counter: 1 };
       },
-      data: {}
-    }
+      state => {
+        return { counter: 2 };
+      },
+      state => {
+        return { counter: 3 };
+      },
+    ];
 
-    const from = "OpenFn"
-    const to = "56979395234"
-    const message = "Hello World!"
+    execute(...operations)(state)
+      .then(finalState => {
+        expect(finalState).to.eql({ counter: 3 });
+      })
+      .then(done)
+      .catch(done);
+  });
 
-    execute(sendSMS(from, to, message))(state)
-    .then((finalState) => {
-      expect(finalState.data.messages[0].status).to.eql("0")
-    }).then(done).catch(done)
+  it('assigns references, data to the initialState', () => {
+    let state = {};
 
-  })
+    let finalState = execute()(state);
 
-})
+    execute()(state).then(finalState => {
+      expect(finalState).to.eql({ references: [], data: null });
+    });
+  });
+});
+
+// TODO: add a test for sendSMS
+// describe('sendSMS', () => {
+//   before(() => {
+//     nock('https://api.twilio.com/')
+//       .post('/2010-04-01/Accounts/ACsecret/Messages.json')
+//       .reply(200, (uri, requestBody) => {
+//         return { ...requestBody, fullName: 'Mamadou', gender: 'M' };
+//       });
+//   });
+
+//   it('will enqueue an SMS via Twilio', async () => {
+//     const state = {
+//       configuration: {
+//         accountSid: 'ACsecret',
+//         authToken: 'evenMoreSecret',
+//       },
+//       data: {
+//         fullName: 'Mamadou',
+//         phone: '+19147157445',
+//       },
+//     };
+// 
+//     const finalState = await execute(
+//       sendSMS({
+//         from: '+19138675309',
+//         name: dataValue('fullName')(state),
+//         to: dataValue('phone')(state),
+//       })
+//     )(state);
+//     expect(finalState.data).to.eql({});
+//   });
+// });
