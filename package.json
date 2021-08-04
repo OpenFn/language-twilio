@@ -45,7 +45,7 @@
     "url": "https://github.com/openfn/language-twilio.git"
   },
   "bundledDependencies": [
-    "language-common",
+    "@openfn/language-common",
     "twilio"
   ]
 }
