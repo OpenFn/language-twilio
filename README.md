@@ -1,5 +1,9 @@
-# Language twilio [![Build Status](https://travis-ci.org/OpenFn/language-twilio.svg?branch=master)](https://travis-ci.org/OpenFn/language-twilio)
+# _⚠️ MOVED TO [OpenFn/adaptors](https://github.com/OpenFn/adaptors)! ⚠️_
 
+**N.B.: New versions are available at:
+https://github.com/OpenFn/adaptors/tree/main/packages/twilio**
+
+# Language twilio (Archived)
 Language Pack for building expressions and operations to interact with the
 twilio API.
 
