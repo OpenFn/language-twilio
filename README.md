@@ -7,18 +7,12 @@ twilio API.
 
 ## sendSMS
 
-#### sample initial state
+#### Sample configuration
 
 ```json
 {
-  "configuration": {
-    "accountSid": "secret",
-    "authToken": "evenMoreSecret"
-  },
-  "data": {
-    "text": "Hello world!",
-    "recipientPhoneNumber": "+19148675309"
-  }
+  "accountSid": "secret",
+  "authToken": "evenMoreSecret"
 }
 ```
 
